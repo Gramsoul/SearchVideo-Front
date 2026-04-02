@@ -24,7 +24,7 @@ export class App {
     console.log(this.data());
 
     
-    fetch('searchvideo-production.up.railway.app:8080/info?url=' + this.url())
+    fetch('https://searchvideo-production.up.railway.app/info?url=' + this.url())
       .then(response => response.json())
       .then(data => {
         this.data.set(data)
