@@ -23,7 +23,8 @@ export class App {
   search() {
     console.log(this.data());
 
-    fetch('http://localhost:8080/info?url=' + this.url())
+    
+    fetch('searchvideo-production.up.railway.app:8080/info?url=' + this.url())
       .then(response => response.json())
       .then(data => {
         this.data.set(data)
