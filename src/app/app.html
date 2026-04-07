@@ -1,24 +1,36 @@
-<main>
+<main class="main-container">
   @if(!data()){
-  <input type="text" (input)="url.set($event.target.value)">
-  <button (click)="search()">confirm</button>
+  <div class="card">
+    <h2>Ingresa url</h2>
+    <div class="input-group">
+      <input type="text" (input)="url.set($event.target.value)" placeholder="ingrese url..." class="custom-input">
+      <button (click)="search()" class="custom-button">
+        <span>Buscar</span>
+      </button>
+    </div>
+  </div>
   }
 
   @if(data(); as d){
-  <div>
+  <div class="card">
     <div>
-      <h1>{{d.title}}</h1>
-      <video controls height="480" width="854" [poster]="d.thumbnail">
-        <source [src]="d.url" type="video/mp4">
+      <h2>{{d.title}}</h2>
+      <video controls class="video-responsive" [poster]="d.thumbnail">
+        <source [src]="d.url" type="video/mp4"> Tu navegador no soporta videos.
       </video>
     </div>
 
-    <div>
+    <div class="card">
       <h3>{{d.uploader}}</h3>
-
-      <div>
-        <p>{{d.description}}</p>
-      </div>
+      <ul>
+        @for (format of d.formats; track format){
+        <li>Extension: {{ format.ext }}</li>
+        <li>Tamaño: {{ ((format.filesize/1024)/1024).toFixed(2)}}mb</li>
+        <li>Resolucion: {{ format.height }}p</li>
+        <li>ID_res: {{ format.format_id }}</li>
+        <br>
+        }
+      </ul>
     </div>
   </div>
   }
