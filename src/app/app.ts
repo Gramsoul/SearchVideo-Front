@@ -33,8 +33,8 @@ export class App {
   data = signal<ytdata | null>(null)
 
   search() {
-    //fetch('https://searchvideo-production.up.railway.app/info?url=' + this.url())
-    fetch('http://localhost:8080/info?url=' + this.url())
+    fetch('https://searchvideo-production.up.railway.app/info?url=' + this.url())
+    //fetch('http://localhost:8080/info?url=' + this.url())
       .then(response => response.json())
       .then(data => {
         this.data.set(data)
