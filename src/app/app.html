@@ -18,6 +18,11 @@
       <video controls class="video-responsive" [poster]="d.thumbnail">
         <source [src]="d.url" type="video/mp4"> Tu navegador no soporta videos.
       </video>
+      <div class="btn-bar">
+        <button (click)="download_video()" class="custom-button">
+          <span>Download</span>
+        </button>
+      </div>
     </div>
 
     <div class="card">
