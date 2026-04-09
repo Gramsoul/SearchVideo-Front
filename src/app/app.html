@@ -1,44 +1,71 @@
 <main class="main-container">
-  @if(!data()){
-  <div class="card">
-    <h2>Ingresa url</h2>
-    <div class="input-group">
-      <input type="text" (input)="url.set($event.target.value)" placeholder="ingrese url..." class="custom-input">
-      <button (click)="search()" class="custom-button">
-        <span>Buscar</span>
-      </button>
-    </div>
-  </div>
-  }
-
-  @if(data(); as d){
-  <div class="card">
-    <div>
-      <h2>{{d.title}}</h2>
-      <video controls class="video-responsive" [poster]="d.thumbnail">
-        <source [src]="d.url" type="video/mp4"> Tu navegador no soporta videos.
-      </video>
-      <div class="btn-bar">
-        <button (click)="download_video()" class="custom-button">
-          <span>Download</span>
+  @if (!data()) {
+    <div class="card search-card">
+      <h2>SearchVideo App</h2>
+      <p>Pega el enlace del video aquí</p>
+      <div class="input-group">
+        <input
+          type="text"
+          (input)="url.set($event.target.value)"
+          placeholder="https://youtube.com/..."
+          class="custom-input"
+        />
+        <button (click)="search()" class="custom-button">
+          <span>Buscar Video</span>
         </button>
       </div>
     </div>
-
-    <div class="card">
-      <h3>{{d.uploader}}</h3>
-      <ul>
-        @for (format of d.formats; track format){
-        <li>Extension: {{ format.ext }}</li>
-        <li>Tamaño: {{ ((format.filesize/1024)/1024).toFixed(2)}}mb</li>
-        <li>Resolucion: {{ format.height }}p</li>
-        <li>ID_res: {{ format.format_id }}</li>
-        <br>
-        }
-      </ul>
-    </div>
-  </div>
   }
 
+  @if (data(); as d) {
+    <div class="content-section">
+      <div class="video-container">
+        <div class="video-header">
+          <h3>{{ d.title }}</h3>
+        </div>
+        <div class="video-src">
+          <video controls class="video-player" [poster]="d.thumbnail">
+            <source [src]="d.url" type="video/mp4" />
+          </video>
+        </div>
+      </div>
 
+      <div class="playlist-container">
+        <div class="playlist-header">
+          <h3>Formatos disponibles</h3>
+          <span class="format-count">{{ d.formats.length }} opciones</span>
+        </div>
+
+        <div class="playlist-items">
+          @for (format of d.formats; track format.format_id) {
+            <div class="playlist-row">
+              <div class="row-index">
+                <span class="ext-tag">{{ format.ext }}</span>
+              </div>
+
+              <div class="row-content">
+                <span class="video-res">{{ format.height }}p</span>
+                <div class="row-metadata">
+                  <span>{{ (format.filesize / 1024 / 1024).toFixed(2) }} MB</span>
+                  <span class="separator">•</span>
+                  <span>ID: {{ format.format_id }}</span>
+                </div>
+              </div>
+
+              <div class="row-action">
+                <button class="icon-btn" title="Descargar este formato" (click)="download_video(format.format_id)">
+                  <svg viewBox="0 0 24 24" width="20" height="20">
+                    <path
+                      fill="currentColor"
+                      d="M12 16.5l4-4h-3v-9h-2v9h-3l4 4zm9-13h-6v1.91h6V21H3V5.41h6V3.5H3c-1.1 0-2 .9-2 2V21c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V5.5c0-1.1-.9-2-2-2z"
+                    />
+                  </svg>
+                </button>
+              </div>
+            </div>
+          }
+        </div>
+      </div>
+    </div>
+  }
 </main>
